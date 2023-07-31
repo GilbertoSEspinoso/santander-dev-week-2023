@@ -1,17 +1,20 @@
 package me.dio.domain.model;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
+@Entity(name = "tb_card")
 public class Card {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String number;
-    private BigDecimal limit;
 
-    public Card(Long id, String number, BigDecimal limit) {
-        this.id = id;
-        this.number = number;
-        this.limit = limit;
-    }
+    @Column(unique = true)
+    private String number;
+
+    @Column(name = "available_limit",scale = 13, precision = 2)
+    private BigDecimal limit;
 
     public Long getId() {
         return id;
@@ -37,18 +40,4 @@ public class Card {
         this.limit = limit;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Card card = (Card) o;
-
-        return id.equals(card.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

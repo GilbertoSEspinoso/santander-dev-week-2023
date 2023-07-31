@@ -1,23 +1,25 @@
 package me.dio.domain.model;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
-
+@Entity(name = "tb_account")
 public class Account {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Number;
-    private String agency;
-    private BigDecimal balance;
-    private BigDecimal limit;
 
-    public Account(Long id, String number, String agency, BigDecimal balance, BigDecimal limit) {
-        this.id = id;
-        Number = number;
-        this.agency = agency;
-        this.balance = balance;
-        this.limit = limit;
-    }
+    @Column(unique = true)
+    private String number;
+    private String agency;
+
+    @Column(scale = 13, precision = 2)
+    private BigDecimal balance;
+
+    @Column(name = "additional_limit",scale = 13, precision = 2)
+    private BigDecimal limit;
 
     public Long getId() {
         return id;
@@ -28,11 +30,11 @@ public class Account {
     }
 
     public String getNumber() {
-        return Number;
+        return number;
     }
 
     public void setNumber(String number) {
-        Number = number;
+        this.number = number;
     }
 
     public String getAgency() {
@@ -59,18 +61,4 @@ public class Account {
         this.limit = limit;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Account account = (Account) o;
-
-        return id.equals(account.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }
